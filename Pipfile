@@ -8,6 +8,8 @@ flask = "*"
 flask-mongoengine = "*"
 flask-wtf = "*"
 flask-restful = "*"
+flask-bcrypt = "*"
+flask-jwt-extended = "*"
 
 [dev-packages]
 
