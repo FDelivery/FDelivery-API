@@ -1,10 +1,10 @@
 from flask import Flask
 from database.db import initialize_db
 from flask_restful import Api
-from resources.routes import initialize_routes
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_marshmallow import Marshmallow
+from resources.routes import initialize_routes
 
 
 app = Flask(__name__)

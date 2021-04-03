@@ -1,9 +1,8 @@
 from flask import request
-from database.models.BusinessUser import BusinessUser
-from database.models.Address import Address
 from flask_restful import Resource, reqparse
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
+from database.models.BusinessUser import BusinessUser
 
 
 class BusinessUserRegisterApi(Resource):

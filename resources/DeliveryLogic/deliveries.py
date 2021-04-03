@@ -1,13 +1,12 @@
 from flask_restful import Resource
-from database.models.Deliveries import Delivery
+from database.models.Delivery import Delivery
+from database.models.BusinessUser import BusinessUser
 from flask import Response, request
-# from app import ma
-#
-#
-# class DeliverySchema(ma.Schema):
-#     pass
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 # TODO: validate args (marshmallow?)
+
 class Deliveries(Resource):
     def get(self):
         """
@@ -19,40 +18,17 @@ class Deliveries(Resource):
         else:
             return Response(deliveries, mimetype="application/json", status=200)
 
+    @jwt_required()
     def post(self):
         """
         post a delivery to DB
         :return: id of new post delivery
         """
+        user_id = get_jwt_identity()
         body = request.get_json()
-        delivery = Delivery(**body)
+        user = BusinessUser.objects.get(id=user_id)
+        delivery = Delivery(**body, addBy=user)
         delivery_id = delivery.id
+        user.update(push_deliveries=delivery)
         delivery.save()
         return {'id': str(delivery_id)}, 200
-
-# @app.route('/api/deliveries', methods=['GET'])
-# def get_deliveries():
-
-#
-# @app.route('/api/deliveries/', methods=['POST'])
-# def method_name():
-#    pass
-#
-# @app.route('/api/deliveries/<id>',methods=['GET'])
-# def get_delivery():
-#     delivery = Delivery.objects(id=id).to_json();
-#     return Response(delivery, mimetype="application/json", status=200)
-#
-#
-# @app.route('/api/deliveries/<id>', methods=['POST'])
-# def add_deliveries():
-#     body = request.get_json()
-#     delivery = Delivery(**body).save()
-#     id = delivery.id
-#     return {'id: str(id)'}, 200
-#
-# @app.route('/api/deliveries/<id>', methods=['DELETE'])
-# def delete_movie(index):
-#     Delivery.objects(id=id).DELETE()
-#     return '', 200
-#

@@ -1,5 +1,8 @@
+from mongoengine import PULL, CASCADE
+
 from database.db import db
-from ..models.Address import Address
+from .Address import Address
+from .Delivery import Delivery
 from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime
 
@@ -13,6 +16,7 @@ class BusinessUser(db.Document):
     secondaryPhone = db.StringField()
     address = db.EmbeddedDocumentField(Address)
     createdAt = db.DateTimeField(defualt=datetime.utcnow())
+    deliveries = db.ListField(db.ReferenceFields('Delivery', reverse_delete_rule=PULL))
 
     def hash_password(self):
         """
@@ -30,3 +34,6 @@ class BusinessUser(db.Document):
         This will either return True or False.
         """
         return check_password_hash(self.password, password)
+
+
+BusinessUser.register_delete_rule(Delivery, 'addBy', CASCADE)
