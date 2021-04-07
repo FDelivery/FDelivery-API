@@ -1,7 +1,4 @@
 from datetime import datetime
-
-from mongoengine import DENY
-from .BusinessUser import BusinessUser
 from .Address import Address
 from ..db import db
 
@@ -29,4 +26,3 @@ class Delivery(db.Document):
     delivererID = db.StringField()
 
 
-Delivery.register_delete_rule(BusinessUser, 'addBy', DENY)

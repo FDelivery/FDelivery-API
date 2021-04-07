@@ -10,7 +10,6 @@ class BusinessUserRegisterApi(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument('firstName', type=str, help='Name cannot be converted', required=True)
         args = parser.parse_args()
-        print(args['firstName'])
         # TODO : need to check that all parameters are correctly given
         body = request.get_json()
         #

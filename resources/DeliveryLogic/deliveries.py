@@ -24,6 +24,7 @@ class Deliveries(Resource):
         post a delivery to DB
         :return: id of new post delivery
         """
+        print("chec")
         user_id = get_jwt_identity()
         body = request.get_json()
         user = BusinessUser.objects.get(id=user_id)
