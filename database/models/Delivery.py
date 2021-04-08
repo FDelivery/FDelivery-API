@@ -6,12 +6,11 @@ from ..db import db
     This class is a model for
     Deliveries collection in MongoDB    
 '''
-
-STATUS_ENUM = (('WD', 'Waiting Delivery'),
+STATUS_ENUM = (('WP', 'Waiting Pickup'),
                ('IR', 'Info Received'),
-               ('IT', 'In Transit Delivery'),
-               ('EX', 'Exception'),
-               ('DL', 'Delivered'))
+               ('IT', 'In Transit'),
+               ('DL', 'Delivered'),
+               ('EX', 'Exception'))
 
 
 class Delivery(db.Document):
