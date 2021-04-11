@@ -2,10 +2,6 @@ from datetime import datetime
 from .Address import Address
 from ..db import db
 
-'''
-    This class is a model for
-    Deliveries collection in MongoDB    
-'''
 STATUS_ENUM = (('WP', 'Waiting Pickup'),
                ('IR', 'Info Received'),
                ('IT', 'In Transit'),
@@ -14,6 +10,10 @@ STATUS_ENUM = (('WP', 'Waiting Pickup'),
 
 
 class Delivery(db.Document):
+    """
+        This class is a model for
+        Deliveries collection in MongoDB
+    """
     addBy = db.ReferenceField('BusinessUser', reverse_delete_rule=db.CASCADE)
     createdAt = db.DateTimeField(defualt=datetime.utcnow())
     pickupAt = db.DateTimeField()

@@ -3,6 +3,7 @@ from database.models.Delivery import Delivery
 from database.models.BusinessUser import BusinessUser
 from flask import Response, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_user import login_required
 
 
 # TODO: validate args (marshmallow?)
@@ -20,6 +21,7 @@ class Deliveries(Resource):
 
     @jwt_required()
     def post(self):
+        print("check")
         """
         post a delivery to DB
         :return: id of new post delivery
@@ -29,6 +31,6 @@ class Deliveries(Resource):
         user = BusinessUser.objects.get(id=user_id)
         delivery = Delivery(**body, addBy=user)
         delivery_id = delivery.id
-        user.update(push_deliveries=delivery)
+        user.deliveries.append(delivery_id)
         delivery.save()
         return {'id': str(delivery_id)}, 200
