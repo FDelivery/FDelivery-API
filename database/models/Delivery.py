@@ -1,4 +1,5 @@
-from datetime import datetime
+import datetime
+
 from .Address import Address
 from ..db import db
 
@@ -15,9 +16,9 @@ class Delivery(db.Document):
         Deliveries collection in MongoDB
     """
     addBy = db.ReferenceField('BusinessUser', reverse_delete_rule=db.CASCADE)
-    createdAt = db.DateTimeField(defualt=datetime.utcnow())
+    createdAt = db.DateTimeField(defualt=datetime.datetime.utcnow())
     pickupAt = db.DateTimeField()
-    deliveredAt = db.DateTimeField()
+    deliveredAt = db.DateTimeField(default=datetime.datetime.utcnow)
     price = db.FloatField(min_value=0)
     srcAddress = db.EmbeddedDocumentField(Address)
     destAddress = db.EmbeddedDocumentField(Address)

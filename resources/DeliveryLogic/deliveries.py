@@ -31,6 +31,7 @@ class Deliveries(Resource):
         user = BusinessUser.objects.get(id=user_id)
         delivery = Delivery(**body, addBy=user)
         delivery_id = delivery.id
+        delivery_id = delivery.save()
         user.deliveries.append(delivery_id)
-        delivery.save()
+        user.save()
         return {'id': str(delivery_id)}, 200
