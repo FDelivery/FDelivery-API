@@ -2,7 +2,7 @@ from flask_restful import Resource
 from database.models.Delivery import Delivery
 from database.models.BusinessUser import BusinessUser
 from flask import Response, request
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, current_user
 from flask_user import login_required
 
 
@@ -26,12 +26,13 @@ class Deliveries(Resource):
         post a delivery to DB
         :return: id of new post delivery
         """
+        print(current_user.id, current_user.firstName)
         user_id = get_jwt_identity()
         body = request.get_json()
         user = BusinessUser.objects.get(id=user_id)
         delivery = Delivery(**body, addBy=user)
         delivery_id = delivery.id
-        delivery_id = delivery.save()
-        user.deliveries.append(delivery_id)
+        delivery = delivery.save()
+        user.deliveries.append(delivery)
         user.save()
-        return {'id': str(delivery_id)}, 200
+        return {'id': str(delivery.id)}, 200

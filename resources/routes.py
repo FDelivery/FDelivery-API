@@ -1,9 +1,10 @@
-from .Auth.businessUserAuth import *
+from .Auth.businessUserAuth import UserRegister, UserLogin
 from .DeliveryLogic.deliveries import Deliveries
 
 
 def initialize_routes(api):
-    api.add_resource(BusinessUserRegisterApi, '/api/business/auth/register/')
-    api.add_resource(BusinessUserLoginApi, '/api/business/auth/login/')
+    # users routs
+    api.add_resource(UserRegister, '/api/users/auth/register/')
+    api.add_resource(UserLogin, '/api/users/auth/login/')
 
     api.add_resource(Deliveries, '/api/deliveriesLogic/deliveries/')

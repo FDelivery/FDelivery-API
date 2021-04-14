@@ -8,4 +8,3 @@ db = MongoEngine()
 # with given app parameter
 def initialize_db(app):
     db.init_app(app)
-    return db
