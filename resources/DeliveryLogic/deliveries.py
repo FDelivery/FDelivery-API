@@ -6,7 +6,20 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, current_user
 from flask_user import login_required
 
 
+# TODO: plan end-points and resource needed
 # TODO: validate args (marshmallow?)
+
+"""
+get list of all deliveries  -   maybe use url args to narrow it down
+                                for starter just return all list
+                                
+Add delivery                -   add delivery to the DB
+
+update delivery status      -   recorde change when delivery is being delivered
+
+cancle/delete delivery      -   need to make sure only the user whom added the delivery can delete it 
+
+"""
 
 class Deliveries(Resource):
     def get(self):

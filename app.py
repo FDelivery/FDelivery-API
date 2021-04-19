@@ -2,8 +2,12 @@ from flask import Flask
 from database.db import initialize_db
 from flask_restful import Api
 from flask_bcrypt import Bcrypt
+from resources.Auth.jwt_manger import initialize_jwt
+from resources.routes import initialize_routes
 
-# from flask_marshmallow import Marshmallow
+
+# TODO: Generate Swagger
+# TODO: Validate with flask-marshmallow see if you can generate swagger from it
 
 
 app = Flask(__name__)
@@ -11,14 +15,11 @@ app.config.from_envvar('ENV_FILE_LOCATION')
 
 api = Api(app)
 bcrypt = Bcrypt(app)
-# ma = Marshmallow(app)
 
-from resources.Auth.jwt_manger import initialize_jwt
 
 initialize_jwt(app)
 initialize_db(app)
 
-from resources.routes import initialize_routes
 
 initialize_routes(api)
 
