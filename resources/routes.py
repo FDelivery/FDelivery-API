@@ -1,7 +1,7 @@
 from .Auth.UserAuth import UserRegister, UserLogin
 from .DeliveryLogic.deliveries import Deliveries
 from .Users import Users
-
+from .courierLogic.couriers import *
 
 def initialize_routes(api):
     # users routs
@@ -11,3 +11,6 @@ def initialize_routes(api):
 
     api.add_resource(Deliveries, '/api/deliveriesLogic/deliveries/')
     # api.add_resource
+    api.add_resource(DeliverList, '/api/courierLogic/delivers/')
+    api.add_resource(SpecificDeliver, '/api/courierLogic/deliver/<id>')
+    api.add_resource(couriers, '/api/courierLogic/couriers/')
