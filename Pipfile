@@ -11,7 +11,7 @@ flask-restful = "*"
 flask-bcrypt = "*"
 flask-jwt-extended = "*"
 flask-marshmallow = "*"
-flask-user = "*"
+flask-apispec = "*"
 
 [dev-packages]
 

@@ -2,12 +2,10 @@ from flask_restful import Resource
 from database.models.Delivery import Delivery
 from flask import Response, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from database.models.CourierUser import CourierUser
+from database.models.User import CourierUser
 
 
-
-
-class DeliverList(Resource):
+class DeliveryList(Resource):
     def get(self):
         """
         :return: json list of all deliveries
@@ -22,11 +20,10 @@ class DeliverList(Resource):
 class SpecificDeliver(Resource):
     def get(self, id):
         """
-                :return: json of Specific deliver
-                """
+        :return: json of Specific deliver
+        """
         deliver = Delivery.objects.get(id=id).to_json()
         return Response(deliver, mimetype="application/json", status=200)
-
 
     def put(self, id):
         """

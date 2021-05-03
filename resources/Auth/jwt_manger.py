@@ -1,4 +1,5 @@
 from flask_jwt_extended import JWTManager
+import json
 
 jwt = JWTManager()
 
@@ -8,10 +9,10 @@ def initialize_jwt(app):
 
 
 # Register a callback function that takes whatever object is passed in as the
-# identity when creating JWTs and converts it to a JSON serializable format.
+# identity when creating JWT and converts it to a JSON serialize format.
 @jwt.user_identity_loader
 def user_identity_lookup(user):
-    return user.id
+    return str(user.id)
 
 
 # Register a callback function that loads a user from your database whenever
@@ -20,6 +21,6 @@ def user_identity_lookup(user):
 # if the user has been deleted from the database).
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
-    from database.models.User import User
+    from database.models.User import User       # avoid circular import
     identity = jwt_data["sub"]
     return User.objects.get(id=identity)

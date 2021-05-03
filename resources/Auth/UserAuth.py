@@ -2,16 +2,16 @@ from flask import request
 from flask_restful import Resource, reqparse
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
-from database.models.BusinessUser import BusinessUser
+from database.models.User import BusinessUser
 
 
 class UserRegister(Resource):
     def post(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('firstName', type=str, help='Name cannot be converted', required=True)
-        args = parser.parse_args()
         # TODO : need to check that all parameters are correctly given
         body = request.get_json()
+        role = body.get('rule')
+        # if role == 'Admin':
+        #     registerAdmin()
         #
         address_body = body.get('address')
         # address = Address()
@@ -25,13 +25,13 @@ class UserRegister(Resource):
 
 
 class UserLogin(Resource):
-    def get(self):
+    def post(self):
         body = request.get_json()
         user = BusinessUser.objects.get(email=body.get('email'))
         authorized = user.check_password(body.get('password'))
         if not authorized:
             return {'error': 'Email or password invalid'}, 401
-
+        print(user)
         expires = timedelta(days=7)
-        access_token = create_access_token(identity=user.id, expires_delta=expires)
+        access_token = create_access_token(user, expires_delta=expires)
         return {'token': access_token}, 200

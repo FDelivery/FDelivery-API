@@ -17,7 +17,7 @@ class User(db.Document):
     primaryPhone = db.StringField(required=True)
     secondaryPhone = db.StringField()
     role = db.StringField(required=True, choices=USER_ROLE)
-    createdAt = db.DateTimeField(defualt=dt.utcnow())
+    createdAt = db.DateTimeField(default=dt.utcnow())
 
     meta = {'allow_inheritance': True}
 
@@ -37,3 +37,21 @@ class User(db.Document):
         This will either return True or False.
         """
         return check_password_hash(self.password, password)
+
+    
+    
+
+class BusinessUser(User):
+    from mongoengine import PULL, CASCADE
+    from .Address import Address
+    businessName = db.StringField()
+    address = db.EmbeddedDocumentField(Address)
+    deliveries = db.ListField(db.ReferenceField('Delivery'), reverse_delete_rule=db.PULL)
+
+
+
+VEHICLE_NAME = ('Bicycle', 'Car', 'motorcycle')
+class CourierUser(User):
+    vehicle = db.StringField(choices=VEHICLE_NAME)
+    myDeliverNow = db.StringField()
+    deliveriesHistory = db.ListField(db.StringField())

@@ -12,7 +12,6 @@ class Users(Resource):
     """
 
     def get(self, user_id: str):
-        print('hey')
         """
         :param user_id: string representing _id user
         :return: User serializable object
@@ -21,3 +20,7 @@ class Users(Resource):
         """
         user = User.objects.get_or_404(id=user_id).to_json()
         return Response(user, mimetype='application/json', status=200)
+
+    # def get(self):
+    #     users = User.objects.get().to_json()
+    #     return Response(users, mimetype='application/json', status=200)

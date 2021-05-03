@@ -16,7 +16,7 @@ class Delivery(db.Document):
         Deliveries collection in MongoDB
     """
     addBy = db.ReferenceField('BusinessUser', reverse_delete_rule=db.CASCADE)
-    createdAt = db.DateTimeField(defualt=datetime.datetime.utcnow())
+    createdAt = db.DateTimeField(default=datetime.datetime.utcnow())
     pickupAt = db.DateTimeField()
     deliveredAt = db.DateTimeField(default=datetime.datetime.utcnow)
     price = db.FloatField(min_value=0)
