@@ -5,7 +5,7 @@ from flask_jwt_extended import create_access_token
 from database.models.User import BusinessUser
 
 
-class UserRegister(Resource):
+class Register(Resource):
     def post(self):
         # TODO : need to check that all parameters are correctly given
         body = request.get_json()
@@ -24,14 +24,13 @@ class UserRegister(Resource):
         return {'id': str(user_id)}, 200
 
 
-class UserLogin(Resource):
+class Login(Resource):
     def post(self):
         body = request.get_json()
         user = BusinessUser.objects.get(email=body.get('email'))
         authorized = user.check_password(body.get('password'))
         if not authorized:
             return {'error': 'Email or password invalid'}, 401
-        print(user)
         expires = timedelta(days=7)
         access_token = create_access_token(user, expires_delta=expires)
         return {'token': access_token}, 200

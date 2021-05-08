@@ -23,6 +23,6 @@ class Delivery(db.Document):
     srcAddress = db.EmbeddedDocumentField(Address)
     destAddress = db.EmbeddedDocumentField(Address)
     status = db.StringField(choices=STATUS_ENUM)
-    delivererID = db.StringField()
+    courierID = db.StringField() # can be  mongo _idObject or reference
 
 

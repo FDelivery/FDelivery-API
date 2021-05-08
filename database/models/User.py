@@ -2,6 +2,7 @@ from datetime import datetime as dt
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 from ..db import db
+
 USER_ROLE = ('Admin', 'Business', 'Courier')
 
 
@@ -38,8 +39,6 @@ class User(db.Document):
         """
         return check_password_hash(self.password, password)
 
-    
-    
 
 class BusinessUser(User):
     from mongoengine import PULL, CASCADE
@@ -49,8 +48,9 @@ class BusinessUser(User):
     deliveries = db.ListField(db.ReferenceField('Delivery'), reverse_delete_rule=db.PULL)
 
 
-
 VEHICLE_NAME = ('Bicycle', 'Car', 'motorcycle')
+
+
 class CourierUser(User):
     vehicle = db.StringField(choices=VEHICLE_NAME)
     myDeliverNow = db.StringField()

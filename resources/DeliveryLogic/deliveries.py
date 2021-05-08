@@ -21,7 +21,7 @@ cancle/delete delivery      -   need to make sure only the user whom added the d
 
 
 class Deliveries(Resource):
-    def get(self, ):
+    def get(self):
         """
         :return: json list of all deliveries
         """
@@ -37,8 +37,8 @@ class Deliveries(Resource):
         post a delivery to DB
         :return: id of new post delivery
         """
-        user_id = get_jwt_identity()                # get user object from jwt
-        body = request.get_json()       
+        user_id = get_jwt_identity()  # get user object from jwt
+        body = request.get_json()
         user = BusinessUser.objects.get(id=user_id)
         delivery = Delivery(**body, addBy=user)
         delivery_id = delivery.id
@@ -46,3 +46,5 @@ class Deliveries(Resource):
         user.deliveries.append(delivery)
         user.save()
         return {'id': str(delivery.id)}, 200
+
+
