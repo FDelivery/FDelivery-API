@@ -39,7 +39,7 @@ class Deliveries(Resource):
         """
         user_id = get_jwt_identity()  # get user object from jwt
         body = request.get_json()
-        user = BusinessUser.objects.get(id=user_id)
+        user = BusinessUser.objects.get()
         delivery = Delivery(**body, addBy=user)
         delivery_id = delivery.id
         delivery = delivery.save()

@@ -2,8 +2,8 @@ from flask import Flask
 from database.db import initialize_db
 from flask_restful import Api
 from flask_bcrypt import Bcrypt
-from resources.Auth.jwt_manger import initialize_jwt
-from resources.routes import initialize_routes
+from resources.jwt_manger import initialize_jwt
+from routes import initialize_routes
 
 
 # TODO: Generate Swagger

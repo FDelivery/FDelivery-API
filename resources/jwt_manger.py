@@ -23,4 +23,4 @@ def user_identity_lookup(user):
 def user_lookup_callback(_jwt_header, jwt_data):
     from database.models.User import User       # avoid circular import
     identity = jwt_data["sub"]
-    return User.objects.get(id=identity)
+    return User.objects.get()

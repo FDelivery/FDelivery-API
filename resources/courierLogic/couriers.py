@@ -22,7 +22,7 @@ class SpecificDeliver(Resource):
         """
         :return: json of Specific deliver
         """
-        deliver = Delivery.objects.get(id=id).to_json()
+        deliver = Delivery.objects.get().to_json()
         return Response(deliver, mimetype="application/json", status=200)
 
     def put(self, id):
@@ -30,14 +30,14 @@ class SpecificDeliver(Resource):
                      update deliver --when its he need to change the status to In Transit\delivered..
                              """
         body = request.get_json()
-        Delivery.objects.get(id=id).update(**body)
+        Delivery.objects.get().update(**body)
         return 'done', 200
 
     def delete(self, id):
         """
                delete deliver from database --when its complete
                        """
-        deliver = Delivery.objects.get(id=id)
+        deliver = Delivery.objects.get()
         deliver.delete()
         return 'done', 200
 
@@ -51,7 +51,7 @@ class couriers(Resource):
                              """
         user_id = get_jwt_identity()
         body = request.get_json()
-        user = CourierUser.objects.get(id=user_id).update(**body)
+        user = CourierUser.objects.get().update(**body)
         return 'done', 200
 
     def get(self):
