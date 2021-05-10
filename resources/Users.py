@@ -11,15 +11,14 @@ class Users(Resource):
     This class provide Users information endpoint
     """
 
-    def get(self, **kwargs):
+    def get(self):
         """
         :param user_id: string representing _id user
-        :return: User serializable object
+        :return: User serialize object
 
         :exception 404 if no user with _id = user_id
         """
         args = request.args.to_dict()
-        print(args)
         user = User.objects(**args).to_json()
         return Response(user, mimetype='application/json', status=200)
 

@@ -4,6 +4,7 @@ from flask_restful import Api
 from flask_bcrypt import Bcrypt
 from resources.jwt_manger import initialize_jwt
 from routes import initialize_routes
+from flask_socketio import SocketIO
 
 
 # TODO: Generate Swagger
@@ -15,6 +16,7 @@ app.config.from_envvar('ENV_FILE_LOCATION')
 
 api = Api(app)
 bcrypt = Bcrypt(app)
+socketio = SocketIO(app)
 
 
 initialize_jwt(app)
@@ -24,4 +26,5 @@ initialize_db(app)
 initialize_routes(api)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    socketio.run(app)

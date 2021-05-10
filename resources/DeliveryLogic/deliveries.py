@@ -10,21 +10,25 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, current_user
 """
 get list of all deliveries  -   maybe use url args to narrow it down
                                 for starter just return all list
-                                
+
 Add delivery                -   add delivery to the DB
 
 update delivery status      -   recorde change when delivery is being delivered
 
-cancle/delete delivery      -   need to make sure only the user whom added the delivery can delete it 
+cancle/delete delivery      -   need to make sure only the user whom added the delivery can delete it
 
 """
 
 
 class Deliveries(Resource):
+    """
+    get py parmas
+    """
+
     def get(self):
         """
-        :return: json list of all deliveries
-        """
+            :return: json list of all deliveries
+            """
         deliveries = Delivery.objects().to_json()
         if not deliveries:
             return Response({'error': 'data not found'}, status=400)
@@ -47,4 +51,12 @@ class Deliveries(Resource):
         user.save()
         return {'id': str(delivery.id)}, 200
 
+    """
+    update an delivery
+    """
 
+    def put(self):
+        pass
+
+    def delete():
+        pass
