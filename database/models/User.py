@@ -1,10 +1,11 @@
 from datetime import datetime as dt
+from typing_extensions import Required
 from flask_bcrypt import generate_password_hash, check_password_hash
 from ..db import db
 from mongoengine import fields
 
 USER_ROLE = ('Admin', 'Business', 'Courier')
-VEHICLE_NAME = ('Bicycle', 'Car', 'motorcycle')
+VEHICLE_NAME = ('Bicycle', 'Car', 'Motorcycle')
 
 
 class User(db.Document):
@@ -53,6 +54,6 @@ class BusinessUser(User):
 
 
 class CourierUser(User):
-    vehicle = db.StringField(choices=VEHICLE_NAME)
+    vehicle = db.StringField(required=True,choices=VEHICLE_NAME)
     myDeliverNow = db.StringField()
     deliveriesHistory = db.ListField(db.StringField())

@@ -24,7 +24,6 @@ class Deliveries(Resource):
     """
     get py parmas
     """
-
     def get(self):
         """
             :return: json list of all deliveries
