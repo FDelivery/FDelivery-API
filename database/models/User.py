@@ -1,5 +1,5 @@
 from datetime import datetime as dt
-from typing_extensions import Required
+# from typing_extensions import Required
 from flask_bcrypt import generate_password_hash, check_password_hash
 from ..db import db
 from mongoengine import fields
@@ -45,6 +45,7 @@ class User(db.Document):
 class BusinessUser(User):
     from mongoengine import PULL
     from .Address import Address
+
     businessName = db.StringField()
     address = db.EmbeddedDocumentField(Address)
     deliveries = db.ListField(db.ReferenceField('Delivery'), reverse_delete_rule=PULL)
