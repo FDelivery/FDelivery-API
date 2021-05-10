@@ -10,7 +10,6 @@ class Register(Resource):
         # TODO : need to check that all parameters are correctly given
         user: User
         body = request.get_json()
-        print(body)
         role = body.get('role')
 
         if role == 'Admin':
@@ -27,8 +26,8 @@ class Register(Resource):
 
 class Login(Resource):
     def post(self):
-        email = request.json().get('email')  # get email from post
-        password = request.json().get('password')  # get password from post
+        email = request.json.get('email')  # get email from post
+        password = request.json.get('password')  # get password from post
         print(email, password)
         user = User.objects.get(email=email)  # retrieve user object from DB
         authorized = user.check_password(password=password)
