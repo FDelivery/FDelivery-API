@@ -1,5 +1,4 @@
 from datetime import datetime as dt
-from typing_extensions import Required
 from flask_bcrypt import generate_password_hash, check_password_hash
 from ..db import db
 from mongoengine import fields
@@ -43,17 +42,15 @@ class User(db.Document):
 
 
 class BusinessUser(User):
-    from mongoengine import PULL
-    from .Address import Address
+    """ Business user class model """
+    from .Address import Address  # Avoid circular import
     businessName = db.StringField()
     address = db.EmbeddedDocumentField(Address)
-    deliveries = db.ListField(db.ReferenceField('Delivery'), reverse_delete_rule=PULL)
-
-    def __repr__(self):
-        return "business"
+    deliveries = db.ListField(db.ReferenceField('Delivery'), reverse_delete_rule=db.PULL)
 
 
 class CourierUser(User):
-    vehicle = db.StringField(required=True,choices=VEHICLE_NAME)
+    vehicle = db.StringField(required=True, choices=VEHICLE_NAME)
     myDeliverNow = db.StringField()
-    deliveriesHistory = db.ListField(db.StringField())
+    deliveriesHistory = db.ListField(db.ReferenceField(
+        'Delivery'), reverse_delete_rule=db.PULL)

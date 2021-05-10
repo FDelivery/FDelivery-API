@@ -1,8 +1,9 @@
 from flask_restful import Resource
 from database.models.Delivery import Delivery
-from database.models.User import BusinessUser
+from database.models.User import User
 from flask import Response, request
-from flask_jwt_extended import jwt_required, get_jwt_identity, current_user
+from flask_jwt_extended import jwt_required, get_current_user, current_user
+from marshmallow import Schema, fields
 
 # TODO: plan end-points and resource needed
 # TODO: validate args (marshmallow?)
@@ -20,15 +21,28 @@ cancle/delete delivery      -   need to make sure only the user whom added the d
 """
 
 
+class DeliverySchema(Schema):
+    pass
+
+
+class AddressSchema(Schema):
+    country = fields.Str()
+    city = fields.Str()
+    street = fields.Str()
+    number = fields.Str()
+    apartment = fields.Str()
+    entrance = fields.Str()
+
+
 class Deliveries(Resource):
     """
-    get py parmas
+    get by
     """
+
     def get(self):
-        """
-            :return: json list of all deliveries
-            """
-        deliveries = Delivery.objects().to_json()
+        """ :return: json list of all deliveries """
+        args = request.args
+        deliveries = Delivery.objects(**args).to_json()
         if not deliveries:
             return Response({'error': 'data not found'}, status=400)
         else:
@@ -40,10 +54,11 @@ class Deliveries(Resource):
         post a delivery to DB
         :return: id of new post delivery
         """
-        user_id = get_jwt_identity()  # get user object from jwt
+        user = get_current_user()  # get user object from jwt
+        print(type(user))
         body = request.get_json()
-        user = BusinessUser.objects.get()
-        delivery = Delivery(**body, addBy=user)
+        # user = User.objects.get()
+        delivery = Delivery(**body, addBy=user, srcAddress=user.address)
         delivery_id = delivery.id
         delivery = delivery.save()
         user.deliveries.append(delivery)
@@ -57,5 +72,6 @@ class Deliveries(Resource):
     def put(self):
         pass
 
-    def delete():
+    def delete(self):
         pass
+
