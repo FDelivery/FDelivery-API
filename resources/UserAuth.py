@@ -21,7 +21,7 @@ class Register(Resource):
 
         user.hash_password()
         user.save()
-        return {'id': str(user.id)}, 200
+        return str(user.id), 200
 
 
 class Login(Resource):

@@ -12,6 +12,7 @@ flask-bcrypt = "*"
 flask-jwt-extended = "*"
 flask-marshmallow = "*"
 flask-apispec = "*"
+flask-socketio = "*"
 
 [dev-packages]
 
