@@ -1,3 +1,5 @@
+import mongoengine.errors
+import pymongo.errors
 from flask import request
 from flask_restful import Resource, reqparse
 from datetime import timedelta
@@ -18,9 +20,12 @@ class Register(Resource):
             user = CourierUser(**body)
         elif role == 'Business':
             user = BusinessUser(**body)
-
         user.hash_password()
-        user.save()
+        try:
+            user.save()
+        except mongoengine.errors.NotUniqueError:
+            return str(), 400
+
         return str(user.id), 200
 
 
