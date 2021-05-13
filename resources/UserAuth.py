@@ -5,49 +5,32 @@ from flask_jwt_extended import create_access_token
 from database.models.User import BusinessUser, CourierUser, User
 
 
-def register_admin(req: request):
-    body = req.get_json()
-    user = User(**body)
-    user.hash_password()
-    user.save()
-    return {'id': str(user.id)}, 200
-
-
-def register_business(req: request):
-    body = req.get_json()
-    user = BusinessUser(**body)
-    user.hash_password()
-    user.save()
-    return {'id': str(user.id)}, 200
-
-
-def register_courier(req: request):
-    body = req.get_json()
-    user = CourierUser(**body)
-    user.hash_password()
-    user.save()
-    return {'id': str(user.id)}, 200
-
-
 class Register(Resource):
     def post(self):
         # TODO : need to check that all parameters are correctly given
-        print(request.data)
-        role = request.json.get('role')
-        print(role)
+        user: User
+        body = request.get_json()
+        role = body.get('role')
+
         if role == 'Admin':
-            return register_admin(request)
+            user = User(**body)
         elif role == 'Courier':
-            return register_courier(request)
+            user = CourierUser(**body)
         elif role == 'Business':
-            return register_business(request)
+            user = BusinessUser(**body)
+
+        user.hash_password()
+        user.save()
+        return {'id': str(user.id)}, 200
 
 
 class Login(Resource):
     def post(self):
-        body = request.get_json()
-        user = BusinessUser.objects.get()
-        authorized = user.check_password(body.get())
+        email = request.json.get('email')  # get email from post
+        password = request.json.get('password')  # get password from post
+        print(email, password)
+        user = User.objects.get(email=email)  # retrieve user object from DB
+        authorized = user.check_password(password=password)
         if not authorized:
             return {'error': 'Email or password invalid'}, 401
         expires = timedelta(days=7)
