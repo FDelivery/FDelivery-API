@@ -21,26 +21,29 @@ cancle/delete delivery      -   need to make sure only the user whom added the d
 """
 
 
-class DeliverySchema(Schema):
-    pass
-
-
-class AddressSchema(Schema):
-    country = fields.Str()
-    city = fields.Str()
-    street = fields.Str()
-    number = fields.Str()
-    apartment = fields.Str()
-    entrance = fields.Str()
-
-
 class Deliveries(Resource):
+    def get(self, delivery_id: str):
+        delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found').to_json()
+        return Response(delivery, mimetype="application/json", status=200)
+
+    """
+    update an delivery
+    """
+
+    def put(self):
+        pass
+
+    def delete(self):
+        pass
+
+
+class DeliveriesList(Resource):
     """
     get by
     """
 
     def get(self):
-        """ :return: json list of all deliveries """
+        """ :return: json list of all deliveries query from url query params"""
         args = request.args
         deliveries = Delivery.objects(**args).to_json()
         if not deliveries:
@@ -55,23 +58,9 @@ class Deliveries(Resource):
         :return: id of new post delivery
         """
         user = get_current_user()  # get user object from jwt
-        print(type(user))
         body = request.get_json()
-        # user = User.objects.get()
         delivery = Delivery(**body, addBy=user, srcAddress=user.address)
-        delivery_id = delivery.id
         delivery = delivery.save()
         user.deliveries.append(delivery)
         user.save()
-        return {'id': str(delivery.id)}, 200
-
-    """
-    update an delivery
-    """
-
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
-
+        return Response(f'{str(delivery.id)}', mimetype="application/json", status=200)
