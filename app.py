@@ -6,7 +6,6 @@ from resources.jwt_manger import initialize_jwt
 from routes import initialize_routes
 from flask_socketio import SocketIO
 
-
 # TODO: Generate Swagger
 # TODO: Validate with flask-marshmallow see if you can generate swagger from it
 
@@ -16,15 +15,13 @@ app.config.from_envvar('ENV_FILE_LOCATION')
 
 api = Api(app)
 bcrypt = Bcrypt(app)
-socketio = SocketIO(app)
-
+socketIO = SocketIO(app)
 
 initialize_jwt(app)
 initialize_db(app)
-
 
 initialize_routes(api)
 
 if __name__ == '__main__':
     # app.run(debug=True)
-    socketio.run(app, debug=True, host='0.0.0.0')
+    socketIO.run(app, debug=True, host='0.0.0.0')

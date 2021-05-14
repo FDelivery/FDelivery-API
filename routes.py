@@ -1,11 +1,12 @@
 from resources.UserAuth import Register, Login
 from resources.deliveries import Deliveries
-from resources.Users import Users
+from resources.UsersList import UsersList, Users
 
 
 def initialize_routes(api):
+    api.add_resource(Users, '/api/v1/users/<string:user_id>')
     # users routs
-    api.add_resource(Users, '/api/v1/users/')
+    api.add_resource(UsersList, '/api/v1/users/')
     # api.add_resource(Users, '/api/v1/users/')
     # api.add_resource(Users, '/api/v1/users')
 
