@@ -9,11 +9,6 @@ from marshmallow import Schema, fields
 # TODO: validate args (marshmallow?)
 
 """
-get list of all deliveries  -   maybe use url args to narrow it down
-                                for starter just return all list
-
-Add delivery                -   add delivery to the DB
-
 update delivery status      -   recorde change when delivery is being delivered
 
 cancle/delete delivery      -   need to make sure only the user whom added the delivery can delete it
@@ -26,22 +21,16 @@ class Deliveries(Resource):
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found').to_json()
         return Response(delivery, mimetype="application/json", status=200)
 
-    """
-    update an delivery
-    """
-
-    def put(self):
+    def put(self, delivery_id: str):
+        """ update an delivery """
         pass
 
-    def delete(self):
+    def delete(self, delivery_id: str):
+        """ delete an delivery """
         pass
 
 
 class DeliveriesList(Resource):
-    """
-    get by
-    """
-
     def get(self):
         """ :return: json list of all deliveries query from url query params"""
         args = request.args

@@ -9,11 +9,11 @@ from database.models.User import User
 class Users(Resource):
     """ For a unique user resource """
 
-    def get(self, user_id: str) -> User:
+    def get(self, user_id: str):
         user = User.objects(id=user_id).first_or_404(message='No such user').to_json()
         return Response(user, mimetype='application/json', status=200)
 
-    def put(self, user_id):
+    def put(self, user_id: str):
         """
         function for update user object data
         :param user_id: UUID of user object
