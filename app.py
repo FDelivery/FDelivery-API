@@ -6,8 +6,8 @@ from resources.jwt_manger import initialize_jwt
 from routes import initialize_routes
 from flask_socketio import SocketIO
 
+# TODO: marshmallow validation of IO
 # TODO: Generate Swagger
-# TODO: Validate with flask-marshmallow see if you can generate swagger from it
 
 
 app = Flask(__name__)

@@ -1,10 +1,10 @@
-from flask import Response
-from flask_restful import Resource, request
+from flask import Response, request
+from flask_restful import Resource
 from database.models.User import User
 
 
-# TODO: add option to find user by email
-# TODO: add option to change password - next version not important right now
+# TODO: add option to change password -
+#   next version not important right now
 
 class Users(Resource):
     """ For a unique user resource """
