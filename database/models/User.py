@@ -1,10 +1,9 @@
 from datetime import datetime as dt
 from flask_bcrypt import generate_password_hash, check_password_hash
 from ..db import db
-from mongoengine import fields
 
-USER_ROLE = ('Admin', 'Business', 'Courier')
-VEHICLE_NAME = ('Bicycle', 'Car', 'Motorcycle')
+_USER_ROLE = ['ADMIN', 'BUSINESS', 'COURIER']
+_VEHICLE_NAME = ('BICYCLE', 'CAR', 'MOTORCYCLE')
 
 
 class User(db.Document):
@@ -18,7 +17,7 @@ class User(db.Document):
     password = db.StringField(required=True, min_length=6)
     primaryPhone = db.StringField(required=True)
     secondaryPhone = db.StringField()
-    role = db.StringField(required=True, choices=USER_ROLE)
+    role = db.StringField(required=True, choices=_USER_ROLE)
     createdAt = db.DateTimeField(default=dt.utcnow())
 
     meta = {'allow_inheritance': True}
@@ -50,7 +49,7 @@ class BusinessUser(User):
 
 
 class CourierUser(User):
-    vehicle = db.StringField(required=True, choices=VEHICLE_NAME)
+    vehicle = db.StringField(required=True, choices=_VEHICLE_NAME)
     myDeliverNow = db.StringField()
     deliveriesHistory = db.ListField(db.ReferenceField(
         'Delivery'), reverse_delete_rule=db.PULL)
