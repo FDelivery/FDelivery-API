@@ -11,8 +11,8 @@ def initialize_routes(api):
     api.add_resource(Register, '/api/v1/auth/register/')
     api.add_resource(Login, '/api/v1/auth/login/')
     # delivery routs
-    api.add_resource(Deliveries, '/api/v1/deliveries/<string:delivery_id>/')
-    api.add_resource(DeliveriesList, '/api/v1/deliveries/')
+    api.add_resource(Deliveries, '/api/v1/deliveriesRef/<string:delivery_id>/')
+    api.add_resource(DeliveriesList, '/api/v1/deliveriesRef/')
 
 
     # api.add_resource

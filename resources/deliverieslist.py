@@ -32,7 +32,7 @@ class Deliveries(Resource):
 
 class DeliveriesList(Resource):
     def get(self):
-        """ :return: json list of all deliveries query from url query params"""
+        """ :return: json list of all deliveriesRef query from url query params"""
         args = request.args
         deliveries = Delivery.objects(**args).to_json()
         if not deliveries:
@@ -50,6 +50,6 @@ class DeliveriesList(Resource):
         body = request.get_json()
         delivery = Delivery(**body, addBy=user, srcAddress=user.address)
         delivery = delivery.save()
-        user.deliveries.append(delivery)
+        user.deliveriesRef.append(delivery)
         user.save()
         return Response(f'{str(delivery.id)}', mimetype="application/json", status=200)
