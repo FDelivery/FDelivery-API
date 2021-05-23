@@ -9,9 +9,9 @@ from marshmallow import Schema, fields
 # TODO: validate args (marshmallow?)
 
 """
-update delivery status      -   recorde change when delivery is being delivered
+update delivery status      -   recorded change when delivery is being delivered
 
-cancle/delete delivery      -   need to make sure only the user whom added the delivery can delete it
+cancel/delete delivery      -   need to make sure only the user whom added the delivery can delete it
 
 """
 
@@ -20,7 +20,8 @@ class Deliveries(Resource):
     def get(self, delivery_id: str):
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found').to_json()
         return Response(delivery, mimetype="application/json", status=200)
-
+        
+    @jwt_required
     def put(self, delivery_id: str):
         """ update an delivery """
         pass
