@@ -2,7 +2,7 @@ import re
 from flask.wrappers import Response
 import mongoengine.errors
 from flask import request
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
 from database.models.User import BusinessUser, CourierUser, User
@@ -11,15 +11,15 @@ from database.models.User import BusinessUser, CourierUser, User
 class Register(Resource):
     def post(self):
         # TODO : need to check that all parameters are correctly given
-        user: User = None
+        user: User
         body = request.get_json()
         role = body.get('role')
 
-        if role == 'Admin':
+        if role == 'ADMIN':
             user = User(**body)
-        elif role == 'Courier':
+        elif role == 'COURIER':
             user = CourierUser(**body)
-        elif role == 'Business':
+        elif role == 'BUSINESS':
             user = BusinessUser(**body)
         user.hash_password()
         try:

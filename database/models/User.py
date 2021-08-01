@@ -23,13 +23,13 @@ class User(db.Document):
     meta = {'allow_inheritance': True}
 
     def hash_password(self):
+        # noinspection SpellCheckingInspection
         """
-        Generates a password hash using bcrypt.
-        Specifying rounds sets the log_rounds parameter of bcrypt.gensalt() which determines the complexity of the salt.
-        12 is the default value.
-        Specifying prefix sets the prefix parameter of bcrypt.gensalt() which determines the version of the algorithm used to create the hash.
+        Generates a password hash using bcrypt. Specifying rounds sets the log_rounds parameter of bcrypt.gensalt()
+        which determines the complexity of the salt. 12 is the default value. Specifying prefix sets the prefix
+        parameter of bcrypt.gensalt() which determines the version of the algorithm used to create the hash.
         """
-        self.password = generate_password_hash(self.password).decode('utf8')
+        self.password = generate_password_hash(self.password)
 
     def check_password(self, password: str):
         """
