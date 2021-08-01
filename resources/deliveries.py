@@ -1,17 +1,13 @@
 from flask_restful import Resource
 from database.models.Delivery import Delivery
-from database.models.User import User
 from flask import Response, request
-from flask_jwt_extended import jwt_required, get_current_user, current_user
-from marshmallow import Schema, fields
+from flask_jwt_extended import jwt_required, get_current_user
 
 # TODO: plan end-points and resource needed
 # TODO: validate args (marshmallow?)
 
 """
-
-cancel/delete delivery      -   need to make sure only the user whom added the delivery can delete it
-
+cancel/delete delivery - need to make sure only the user whom added the delivery can delete it
 """
 
 
@@ -19,7 +15,7 @@ class Deliveries(Resource):
     def get(self, delivery_id: str):
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found').to_json()
         return Response(delivery, mimetype="application/json", status=200)
-        
+
     @jwt_required
     def put(self, delivery_id: str):
         req_body = request.get_json()
