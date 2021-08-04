@@ -11,6 +11,10 @@ flask-restful = "*"
 flask-bcrypt = "*"
 flask-jwt-extended = "*"
 flask-marshmallow = "*"
+flask-apispec = "*"
+flask-socketio = "*"
+watchdog = "*"
+mongoengine = "*"
 
 [dev-packages]
 

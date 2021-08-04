@@ -32,3 +32,4 @@ htmlcov/
 .coverage
 .coverage.*
 *,cover
+.env
