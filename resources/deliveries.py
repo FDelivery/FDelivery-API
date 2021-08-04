@@ -1,4 +1,6 @@
+
 import mongoengine
+
 from flask_restful import Resource
 from database.models.Delivery import Delivery
 from flask import Response, request
@@ -18,6 +20,7 @@ class Deliveries(Resource):
     def get(self, delivery_id: str):
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found').to_json()
         return delivery, 200
+
 
     @jwt_required
     def put(self, delivery_id: str):
@@ -53,3 +56,4 @@ class DeliveriesList(Resource):
         user.deliveriesRef.append(delivery)
         user.save()
         return str(delivery.id), 200
+

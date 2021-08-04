@@ -27,7 +27,7 @@ class Register(Resource):
             user.save()
         except mongoengine.errors.NotUniqueError as exception:
             return str(exception), 400
-            print
+
         return str(user.id), 200
 
 
@@ -42,7 +42,9 @@ class Login(Resource):
         if authorized:
             expires = timedelta(days=7)
             access_token = create_access_token(user, expires_delta=expires)
+
             return str(access_token), 200
         # return str(user.id), 200
 
         return 'error: Email or password invalid', 401
+

@@ -6,7 +6,6 @@ from ..db import db
 _STATUS_ENUM = ('COURIER_SEARCHING'
                 'COURIER_ACCEPTED',
                 'WAITING_PICKUP',
-                'WAITING_PICKUP',
                 'IN_TRANSIT',
                 'DELIVERED',
                 'EXCEPTION')
