@@ -36,12 +36,15 @@ class Deliveries(Resource):
 class DeliveriesList(Resource):
     def get(self):
         """ :return: json list of all deliveriesRef query from url query params"""
-        args = request.args
-        deliveries = Delivery.objects(**args).to_json()
+        user_id = request.args.get('userId')
+        deliveries = Delivery.objects(AddedBy=user_id)
+        dell = []
+        for d in deliveries:
+            dell.append(d.to_json())
         if not deliveries:
-            return Response({'error': 'data not found'}, status=400)
+            return 'error data not found', 400
         else:
-            return Response(deliveries, mimetype="application/json", status=200)
+            return dell, 200
 
     @jwt_required()
     def post(self):
@@ -51,7 +54,7 @@ class DeliveriesList(Resource):
         """
         user = get_current_user()  # get user object from jwt
         body = request.get_json()
-        delivery = Delivery(**body, srcAddress=user.address)
+        delivery = Delivery(**body, AddedBy=str(user.id), srcAddress=user.address)
         delivery = delivery.save()
         user.deliveriesRef.append(delivery)
         user.save()
