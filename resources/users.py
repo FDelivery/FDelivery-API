@@ -34,3 +34,14 @@ class UsersList(Resource):
         args = request.args.to_dict()  # get params for url query arguments
         user = User.objects(**args).to_json()
         return Response(user, mimetype='application/json', status=200)
+
+
+    def post(self):
+        email = request.json.get('email')  # get email from post
+        password = request.json.get('password')  # get password from post
+        user = User.objects.get(email=email)  # retrieve user object from DB
+
+        return str(user.id), 200
+        # return str(user.id), 200
+
+        return 'error: Email or password invalid', 401
