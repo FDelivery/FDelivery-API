@@ -20,7 +20,10 @@ class Users(Resource):
         function for update user object data
         :param user_id: UUID of user object
         """
-        pass
+        req_body = request.json
+        for key, value in req_body.items():
+            User.objects(id=user_id).update(**{key: value})
+        return 200
 
 
 class UsersList(Resource):
