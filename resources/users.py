@@ -1,4 +1,3 @@
-
 from flask import Response, request, jsonify
 from flask_restful import Resource
 from database.models.User import User
@@ -13,7 +12,6 @@ class Users(Resource):
     def get(self, user_id: str):
         user = User.objects(id=user_id).first_or_404(message='No such user').to_json()
         return user, 200
-
 
     def put(self, user_id: str):
         """
@@ -38,13 +36,3 @@ class UsersList(Resource):
         user = User.objects(**args).to_json()
         return Response(user, mimetype='application/json', status=200)
 
-
-    def post(self):
-        email = request.json.get('email')  # get email from post
-        password = request.json.get('password')  # get password from post
-        user = User.objects.get(email=email)  # retrieve user object from DB
-
-        return str(user.id), 200
-        # return str(user.id), 200
-
-        return 'error: Email or password invalid', 401
