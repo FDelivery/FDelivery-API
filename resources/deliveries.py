@@ -3,10 +3,12 @@ import mongoengine
 from bson import ObjectId
 
 from flask_restful import Resource
+from app import socketIO
 from database.models.Delivery import Delivery
 from flask import Response, request
 from flask_jwt_extended import jwt_required, get_current_user
 from database.models.User import User
+
 # TODO: plan end-points and resource needed
 # TODO: validate args (marshmallow?)
 
@@ -44,24 +46,8 @@ class Deliveries(Resource):
         return 200
 
 
-
-
-
 class DeliveriesList(Resource):
     def get(self):
-        # """ :return: json list of all deliveriesRef query from url query params"""
-        # dell, deliveries = [], []
-        # type = request.args.get('type')
-        # if type == 'Business':
-        #     user_id = request.args.get('userId')
-        #     deliveries = Delivery.objects(AddedBy=user_id)
-        #
-        # elif type == 'Courier':
-        #     deliveries = Delivery.objects(status='COURIER_SEARCHING').to_json()
-        # if not deliveries:
-        #     return 'error data not found', 400
-
-        # return dell, 200
         """ :return: json list of all deliveriesRef query from url query params"""
         args = request.args.to_dict()
         deliveries = Delivery.objects(**args)
@@ -79,6 +65,7 @@ class DeliveriesList(Resource):
         post a delivery to DB
         :return: id of new post delivery
         """
+
         user = get_current_user()  # get user object from jwt
         body = request.get_json()
         delivery = Delivery(**body, AddedBy=str(user.id), srcAddress=user.address)
