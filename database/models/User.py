@@ -52,5 +52,4 @@ class CourierUser(User):
     """ Courier user class model """
     vehicle = db.StringField(required=True, choices=_VEHICLE_NAME)
     currentDelivery = db.StringField()
-    deliveriesHistory = db.ListField(db.ReferenceField(
-        'Delivery'), reverse_delete_rule=db.PULL)
+    deliveriesHistory = db.ListField(db.ReferenceField('Delivery'), reverse_delete_rule=db.PULL)

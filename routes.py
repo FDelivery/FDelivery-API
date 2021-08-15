@@ -1,6 +1,6 @@
 from resources.auth import Register, Login
 from resources.deliveries import DeliveriesList, Deliveries
-from resources.users import UsersList, Users, User
+from resources.users import UsersList, Users
 
 
 def initialize_routes(api):

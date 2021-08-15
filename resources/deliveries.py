@@ -49,14 +49,27 @@ class Deliveries(Resource):
 
 class DeliveriesList(Resource):
     def get(self):
+        # """ :return: json list of all deliveriesRef query from url query params"""
+        # dell, deliveries = [], []
+        # type = request.args.get('type')
+        # if type == 'Business':
+        #     user_id = request.args.get('userId')
+        #     deliveries = Delivery.objects(AddedBy=user_id)
+        #
+        # elif type == 'Courier':
+        #     deliveries = Delivery.objects(status='COURIER_SEARCHING').to_json()
+        # if not deliveries:
+        #     return 'error data not found', 400
+
+        # return dell, 200
         """ :return: json list of all deliveriesRef query from url query params"""
-        user_id = request.args.get('userId')
-        deliveries = Delivery.objects(AddedBy=user_id)
+        args = request.args.to_dict()
+        deliveries = Delivery.objects(**args)
+        if not deliveries:
+            return 'error: data not found', 400
         dell = []
         for d in deliveries:
             dell.append(d.to_json())
-        if not deliveries:
-            return 'error data not found', 400
         else:
             return dell, 200
 
