@@ -28,8 +28,11 @@ class Deliveries(Resource):
 
     @jwt_required()
     def put(self, delivery_id: str):
-        req_body = request.get_json()
+        req_body = request.args.to_dict()
         Delivery.objects(id=delivery_id).update(**req_body)
+        if req_body['status']:
+            print (11111111)
+            socketIO.emit("delivery accepted", "sdkjrgcnd")
         return 204
 
 
