@@ -1,6 +1,6 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from database.db import db
+from app.database.db import db
 from ..models.Address import Address
 #from flask_bcrypt import generate_password_hash, check_password_hash
 from datetime import datetime

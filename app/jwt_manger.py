@@ -1,6 +1,5 @@
 from flask_jwt_extended import JWTManager
-from database.models.User import User  # avoid circular import
-import json
+from app.database.models.User import User  # avoid circular import
 
 jwt = JWTManager()
 

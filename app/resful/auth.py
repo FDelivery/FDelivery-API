@@ -1,12 +1,9 @@
-import re
-
 import mongoengine
-from flask.wrappers import Response
 from flask import request
 from flask_restful import Resource
 from datetime import timedelta
 from flask_jwt_extended import create_access_token
-from database.models.User import BusinessUser, CourierUser, User
+from app.database.models.User import BusinessUser, CourierUser, User
 
 
 class Register(Resource):

@@ -1,24 +1,15 @@
 from flask_bcrypt import Bcrypt
-from flask_restful import Api
-from flask_socketio import SocketIO
+from .resful import api
 from flask import Flask
 
-from database.db import initialize_db
-from resources.jwt_manger import initialize_jwt
-
-socketIO = SocketIO()
+app = Flask(__name__)
 
 
-def create_app(debug=False):
-    app = Flask(__name__)
+def create_api(debug=False):
     app.config.from_envvar('ENV_FILE_LOCATION')
 
-    api = Api(app)
-    bcrypt = Bcrypt(app)
-
-    initialize_jwt(app)
-    initialize_db(app)
-    from routes import initialize_routes
+    from app.routes import initialize_routes
     initialize_routes(api)
-    socketIO.init_app(app)
+
+    api.init_app(app)
     return app
