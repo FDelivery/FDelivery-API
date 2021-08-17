@@ -11,8 +11,6 @@ class User(db.Document):
     Parent class of User all user types inherent from this class
     This allows for more convenient and efficient retrieval of related documents
     """
-    firstName = db.StringField(max_length=50, required=True)
-    lastName = db.StringField(max_length=50, required=True)
     email = db.EmailField(max_length=50, required=True, unique=True)
     password = db.StringField(required=True, min_length=6)
     primaryPhone = db.StringField(required=True)
@@ -50,6 +48,8 @@ class BusinessUser(User):
 
 class CourierUser(User):
     """ Courier user class model """
+    firstName = db.StringField(max_length=50, required=True)
+    lastName = db.StringField(max_length=50, required=True)
     vehicle = db.StringField(required=True, choices=_VEHICLE_NAME)
     currentDelivery = db.StringField()
     deliveriesHistory = db.ListField(db.ReferenceField('Delivery'), reverse_delete_rule=db.PULL)

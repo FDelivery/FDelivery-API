@@ -1,6 +1,6 @@
-from flask import Response, request, jsonify
+from flask import Response, request
 from flask_restful import Resource
-from database.models.User import User
+from app.database.models.User import User
 
 
 # TODO: add option to change password -

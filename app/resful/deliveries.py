@@ -1,13 +1,11 @@
-
-import mongoengine
 from bson import ObjectId
 
 from flask_restful import Resource
-from app import socketIO
-from database.models.Delivery import Delivery
-from flask import Response, request
+from app.socketio import socketio
+from app.database.models.Delivery import Delivery
+from flask import request
 from flask_jwt_extended import jwt_required, get_current_user
-from database.models.User import User
+from app.database.models.User import User
 
 # TODO: plan end-points and resource needed
 # TODO: validate args (marshmallow?)
@@ -20,23 +18,19 @@ cancel/delete delivery - need to make sure only the user whom added the delivery
 
 class Deliveries(Resource):
 
-
     def get(self, delivery_id: str):
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found').to_json()
         return delivery, 200
 
-
     @jwt_required()
     def put(self, delivery_id: str):
         req_body = request.args.to_dict()
-        Delivery.objects(id=delivery_id).update(**req_body)
-        if req_body['status']:
-            print (11111111)
-            socketIO.emit("delivery accepted", "sdkjrgcnd")
+        delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found')
+        delivery.update(**req_body)
+        socketio.emit("delivery_accepted_for_courier", "1")
+        socketio.emit("delivery_accepted", "", room=delivery.AddedBy)
+        print("11111 put")
         return 204
-
-
-
 
     @jwt_required()
     def delete(self, delivery_id: str):
@@ -71,9 +65,10 @@ class DeliveriesList(Resource):
 
         user = get_current_user()  # get user object from jwt
         body = request.get_json()
+        print(body)
         delivery = Delivery(**body, AddedBy=str(user.id), srcAddress=user.address)
         delivery = delivery.save()
         user.deliveriesRef.append(delivery)
         user.save()
+        socketio.emit("delivery_posted", "1")
         return str(delivery.id), 200
-

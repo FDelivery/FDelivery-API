@@ -1,6 +1,6 @@
-from resources.auth import Register, Login
-from resources.deliveries import DeliveriesList, Deliveries
-from resources.users import UsersList, Users
+from app.resful.auth import Register, Login
+from app.resful.deliveries import DeliveriesList, Deliveries
+from app.resful.users import UsersList, Users
 
 
 def initialize_routes(api):
