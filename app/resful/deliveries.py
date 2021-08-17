@@ -25,10 +25,11 @@ class Deliveries(Resource):
     @jwt_required()
     def put(self, delivery_id: str):
         req_body = request.args.to_dict()
-        Delivery.objects(id=delivery_id).update(**req_body)
-        if req_body['status']:
-            print(11111111)
-            socketio.emit("delivery accepted", "sdkjrgcnd")
+        delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found')
+        delivery.update(**req_body)
+        socketio.emit("delivery_accepted_for_courier", "1")
+        socketio.emit("delivery_accepted", "", room=delivery.AddedBy)
+        print("11111 put")
         return 204
 
     @jwt_required()
@@ -64,8 +65,10 @@ class DeliveriesList(Resource):
 
         user = get_current_user()  # get user object from jwt
         body = request.get_json()
+        print(body)
         delivery = Delivery(**body, AddedBy=str(user.id), srcAddress=user.address)
         delivery = delivery.save()
         user.deliveriesRef.append(delivery)
         user.save()
+        socketio.emit("delivery_posted", "1")
         return str(delivery.id), 200
