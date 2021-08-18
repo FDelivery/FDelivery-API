@@ -5,7 +5,7 @@ from flask import Flask
 app = Flask(__name__)
 
 
-def create_api(debug=False):
+def create_api():
     app.config.from_envvar('ENV_FILE_LOCATION')
 
     from app.routes import initialize_routes

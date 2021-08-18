@@ -8,7 +8,7 @@ from app.jwt_manger import initialize_jwt
 
 
 # Initialise restful api
-app = create_api(debug=True)
+app = create_api()
 
 # Initialise flask-socketio
 create_socketio(app)

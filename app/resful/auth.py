@@ -40,8 +40,6 @@ class Login(Resource):
             expires = timedelta(days=7)
             access_token = create_access_token(user, expires_delta=expires)
             arr = [str(access_token), str(user.id)]
-
             return arr, 200
-        # return str(user.id), 200
 
         return 'error: Email or password invalid', 401

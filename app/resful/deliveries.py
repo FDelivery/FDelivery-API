@@ -27,9 +27,12 @@ class Deliveries(Resource):
         req_body = request.args.to_dict()
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found')
         delivery.update(**req_body)
+
+        # inform couriers that certain delivery is taken by other courier
         socketio.emit("delivery_accepted_for_courier", "1")
+
+        # inform delivery owner(business user) that some courier chose to take his delivery
         socketio.emit("delivery_accepted", "", room=delivery.AddedBy)
-        print("11111 put")
         return 204
 
     @jwt_required()
@@ -53,8 +56,7 @@ class DeliveriesList(Resource):
         dell = []
         for d in deliveries:
             dell.append(d.to_json())
-        else:
-            return dell, 200
+        return dell, 200
 
     @jwt_required()
     def post(self):
@@ -65,10 +67,12 @@ class DeliveriesList(Resource):
 
         user = get_current_user()  # get user object from jwt
         body = request.get_json()
-        print(body)
         delivery = Delivery(**body, AddedBy=str(user.id), srcAddress=user.address)
         delivery = delivery.save()
         user.deliveriesRef.append(delivery)
         user.save()
+
+        # inform couriers that new delivery has been posted
         socketio.emit("delivery_posted", "1")
+
         return str(delivery.id), 200
