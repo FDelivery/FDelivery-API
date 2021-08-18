@@ -24,15 +24,20 @@ class Deliveries(Resource):
 
     @jwt_required()
     def put(self, delivery_id: str):
-        req_body = request.get_json()
+        body = request.get_json()
+        print(body)
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found')
-        delivery.update(**req_body)
+        delivery.update(**body)
+        if body.get('status') == 'COURIER_ACCEPTED':
+            user = get_current_user()
+            delivery.update(courierRef=user.id)
+            user.deliveriesHistory.append(delivery)
 
-        # inform couriers that certain delivery is taken by other courier
-        socketio.emit("delivery_accepted_for_courier", "1")
+            # inform couriers that certain delivery is taken by other courier
+            socketio.emit("delivery_accepted_for_courier", "1")
 
-        # inform delivery owner(business user) that some courier chose to take his delivery
-        socketio.emit("delivery_accepted", "", room=delivery.AddedBy)
+            # inform delivery owner(business user) that some courier chose to take his delivery
+            socketio.emit("delivery_accepted", "", room=delivery.AddedBy)
         return 204
 
     @jwt_required()
@@ -40,7 +45,7 @@ class Deliveries(Resource):
         """ delete an delivery """
         user = get_current_user()
         update_qry = {"$pull": {"deliveriesRef": ObjectId(delivery_id)}}
-        User.objects(id=user.id).update(__raw__=update_qry);
+        User.objects(id=user.id).update(__raw__=update_qry)
         Delivery.objects(id=delivery_id).first_or_404('Delivery not found').delete()
 
         return 200
