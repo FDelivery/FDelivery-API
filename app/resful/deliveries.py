@@ -24,7 +24,7 @@ class Deliveries(Resource):
 
     @jwt_required()
     def put(self, delivery_id: str):
-        req_body = request.args.to_dict()
+        req_body = request.get_json()
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found')
         delivery.update(**req_body)
 
