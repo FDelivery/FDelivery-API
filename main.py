@@ -1,7 +1,7 @@
 from app import create_api
 from app.database.db import initialize_db
 from app.socketio import create_socketio, socketio
-from app.jwt_manger import initialize_jwt
+from app.utils.jwt_manger import initialize_jwt
 
 # TODO: marshmallow validation of IO
 # TODO: Generate Swagger

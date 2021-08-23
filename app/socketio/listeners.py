@@ -8,9 +8,3 @@ from flask_socketio import join_room
 @socketio.on('join')
 def register_delivery_room(b_id):
     join_room(b_id)
-
-
-# @socketio.event
-# def connect():
-#     # socketio.save_session(request.sid)
-#     print(request.sid)

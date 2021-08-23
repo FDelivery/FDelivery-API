@@ -15,9 +15,3 @@ def initialize_routes(api):
     # delivery routs
     api.add_resource(Deliveries, '/api/v1/deliveriesRef/<string:delivery_id>/')
     api.add_resource(DeliveriesList, '/api/v1/deliveriesRef/')
-
-
-    # api.add_resource
-    # api.add_resource(Deliveries, '/api/courierLogic/delivers/')
-    # api.add_resource(SpecificDeliver, '/api/courierLogic/deliver/<id>')
-    # api.add_resource(couriers, '/api/courierLogic/couriers/')
