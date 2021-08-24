@@ -27,9 +27,10 @@ class Deliveries(Resource):
         body = request.get_json()
         print(body)
         delivery = Delivery.objects(id=delivery_id).first_or_404('Delivery not found')
-        delivery.update(**body)
         if body.get('status') == 'COURIER_ACCEPTED':
             user = get_current_user()
+            if Delivery.objects(courierRef=user.id, status='COURIER_ACCEPTED'):
+                return 'you already registered for a delivery', 400
             delivery.update(courierRef=user.id)
             user.deliveriesHistory.append(delivery)
 
@@ -37,7 +38,8 @@ class Deliveries(Resource):
             socketio.emit("delivery_accepted_for_courier", "1")
 
             # inform delivery owner(business user) that some courier chose to take his delivery
-            socketio.emit("delivery_accepted", "", room=delivery.AddedBy)
+            socketio.emit("delivery_accepted", "", to=delivery.AddedBy)
+        delivery.update(**body)
         return 204
 
     @jwt_required()
@@ -72,12 +74,13 @@ class DeliveriesList(Resource):
 
         user = get_current_user()  # get user object from jwt
         body = request.get_json()
+        print(body)
         delivery = Delivery(**body, AddedBy=str(user.id), srcAddress=user.address)
         delivery = delivery.save()
         user.deliveriesRef.append(delivery)
         user.save()
 
         # inform couriers that new delivery has been posted
-        socketio.emit("delivery_posted", "1")
+        socketio.emit("delivery_posted", delivery.to_json())
 
         return str(delivery.id), 200
